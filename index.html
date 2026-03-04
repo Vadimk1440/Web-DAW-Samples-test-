@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sampler Admin Panel · управление сэмплами</title>
+    <title>GitHub Sampler · управление сэмплами</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -45,19 +45,30 @@
             color: #9cf;
             margin-right: 10px;
         }
-        .header-info {
-            color: #8a8aff;
-            font-size: 14px;
+        .github-status {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            background: #2a2a30;
+            color: #ffaa33;
+        }
+        .status-badge.connected {
+            background: #1e3a2e;
+            color: #4caf50;
         }
 
-        /* Панель админа */
         .admin-panel {
             display: grid;
             grid-template-columns: 300px 1fr;
             gap: 20px;
         }
 
-        /* Левая панель - управление */
+        /* Левая панель */
         .left-admin {
             background: #18181e;
             border-radius: 12px;
@@ -67,9 +78,6 @@
         .admin-section {
             padding: 20px;
             border-bottom: 1px solid #333;
-        }
-        .admin-section:last-child {
-            border-bottom: none;
         }
         .section-title {
             font-size: 16px;
@@ -81,7 +89,13 @@
             margin-right: 8px;
         }
 
-        /* Формы */
+        /* GitHub настройки */
+        .github-settings {
+            background: #1e1e28;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
         .form-group {
             margin-bottom: 15px;
         }
@@ -126,18 +140,13 @@
         .btn-primary:hover {
             background: #7a7aff;
         }
-        .btn-danger {
-            background: #d32f2f;
+        .btn-success {
+            background: #2e7d32;
         }
-        .btn-danger:hover {
-            background: #f44336;
-        }
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 12px;
+        .btn-success:hover {
+            background: #3e9e44;
         }
 
-        /* Список папок */
         .folder-list {
             max-height: 300px;
             overflow-y: auto;
@@ -165,19 +174,12 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-weight: 500;
         }
         .folder-name i {
             color: #ffaa33;
         }
-        .folder-count {
-            background: #3a3a48;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 11px;
-        }
 
-        /* Правая панель - сэмплы */
+        /* Правая панель */
         .right-admin {
             background: #18181e;
             border-radius: 12px;
@@ -223,11 +225,7 @@
             color: #9cf;
             margin-bottom: 10px;
         }
-        .upload-box p {
-            color: #aaa;
-        }
 
-        /* Сетка сэмплов */
         .samples-grid {
             padding: 20px;
             display: grid;
@@ -241,16 +239,10 @@
             border: 1px solid #3a3a48;
             border-radius: 8px;
             padding: 15px;
-            transition: all 0.2s;
-        }
-        .sample-card:hover {
-            border-color: #5b5bf5;
-            transform: translateY(-2px);
         }
         .sample-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             margin-bottom: 12px;
         }
         .sample-name {
@@ -259,22 +251,6 @@
             max-width: 180px;
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .sample-name i {
-            margin-right: 6px;
-            color: #9cf;
-        }
-        .sample-size {
-            font-size: 11px;
-            color: #aaa;
-        }
-        .sample-preview {
-            margin-bottom: 12px;
-        }
-        .sample-preview audio {
-            width: 100%;
-            height: 40px;
         }
         .sample-url {
             background: #1a1a24;
@@ -284,7 +260,6 @@
             color: #8a8aff;
             word-break: break-all;
             margin-bottom: 10px;
-            border: 1px solid #3a3a48;
         }
         .sample-actions {
             display: flex;
@@ -303,55 +278,11 @@
             align-items: center;
             justify-content: center;
             gap: 5px;
-            transition: background 0.2s;
         }
         .copy-btn:hover {
             background: #5a5a6a;
         }
-        .delete-btn {
-            background: #5f3f3f;
-            border: none;
-            color: white;
-            padding: 8px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: background 0.2s;
-        }
-        .delete-btn:hover {
-            background: #7f4f4f;
-        }
 
-        /* Инструкция */
-        .instructions {
-            margin-top: 30px;
-            background: #18181e;
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 20px;
-        }
-        .instructions h3 {
-            color: #9cf;
-            margin-bottom: 15px;
-        }
-        .instructions ol {
-            margin-left: 20px;
-            color: #ccc;
-        }
-        .instructions li {
-            margin-bottom: 8px;
-        }
-        .code-block {
-            background: #0c0c0f;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            font-family: monospace;
-            color: #8a8aff;
-            border: 1px solid #3a3a48;
-        }
-
-        /* Уведомления */
         .toast {
             position: fixed;
             bottom: 20px;
@@ -360,12 +291,10 @@
             color: white;
             padding: 12px 24px;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             display: none;
             z-index: 1000;
         }
 
-        /* Модальное окно для папки */
         .modal {
             display: none;
             position: fixed;
@@ -386,19 +315,22 @@
             border-radius: 12px;
             padding: 30px;
             width: 400px;
-            max-width: 90%;
             border: 1px solid #444;
         }
-        .modal-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #9cf;
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #3a3a48;
+            border-radius: 2px;
+            margin: 10px 0;
+            overflow: hidden;
         }
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
+        .progress-fill {
+            height: 100%;
+            background: #5b5bf5;
+            width: 0%;
+            transition: width 0.3s;
         }
     </style>
 </head>
@@ -406,9 +338,9 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h1><i class="fas fa-database"></i> Sampler Admin Panel</h1>
-            <div class="header-info">
-                <i class="fas fa-info-circle"></i> Управление сэмплами для Web DAW
+            <h1><i class="fab fa-github"></i> GitHub Sampler</h1>
+            <div class="github-status">
+                <span class="status-badge" id="githubStatus">🔌 Не подключено</span>
             </div>
         </div>
 
@@ -417,22 +349,50 @@
             <!-- Левая панель -->
             <div class="left-admin">
                 <div class="admin-section">
+                    <div class="section-title"><i class="fab fa-github"></i> GitHub настройки</div>
+
+                    <div class="github-settings">
+                        <div class="form-group">
+                            <label>GitHub Token</label>
+                            <input type="password" class="form-control" id="githubToken" placeholder="ghp_xxxxxxxxxxxx">
+                            <small style="color:#aaa; font-size:10px;">Settings → Developer settings → Personal access tokens</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Владелец репозитория</label>
+                            <input type="text" class="form-control" id="repoOwner" placeholder="username">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Название репозитория</label>
+                            <input type="text" class="form-control" id="repoName" placeholder="samples">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Ветка</label>
+                            <input type="text" class="form-control" id="repoBranch" value="main">
+                        </div>
+
+                        <button class="btn btn-primary" id="connectGitHub" style="width:100%;">
+                            <i class="fas fa-plug"></i> Подключиться к GitHub
+                        </button>
+                    </div>
+                </div>
+
+                <div class="admin-section">
                     <div class="section-title"><i class="fas fa-folder"></i> Папки</div>
                     <button class="btn btn-primary btn-sm" id="newFolderBtn" style="width:100%; margin-bottom:15px;">
-                        <i class="fas fa-plus"></i> Новая папка
+                        <i class="fas fa-plus"></i> Создать папку на GitHub
                     </button>
                     <div class="folder-list" id="folderList"></div>
                 </div>
 
                 <div class="admin-section">
-                    <div class="section-title"><i class="fas fa-cog"></i> Настройки</div>
+                    <div class="section-title"><i class="fas fa-link"></i> Raw CDN URL</div>
                     <div class="form-group">
-                        <label>Base URL (где хостится сайт)</label>
-                        <input type="text" class="form-control" id="baseUrl" value="https://your-domain.com/samples/" placeholder="https://your-domain.com/samples/">
+                        <label>Будет доступно по адресу:</label>
+                        <input type="text" class="form-control" id="cdnUrl" readonly value="https://raw.githubusercontent.com/username/repo/branch/">
                     </div>
-                    <button class="btn btn-primary btn-sm" id="saveSettings" style="width:100%;">
-                        <i class="fas fa-save"></i> Сохранить
-                    </button>
                 </div>
             </div>
 
@@ -443,19 +403,21 @@
                         <i class="fas fa-folder-open"></i>
                         <span id="currentFolderName">Все сэмплы</span>
                     </div>
-                    <div>
-                        <button class="btn btn-primary btn-sm" id="refreshSamples">
-                            <i class="fas fa-sync"></i> Обновить
-                        </button>
-                    </div>
+                    <button class="btn btn-primary btn-sm" id="refreshSamples">
+                        <i class="fas fa-sync"></i> Обновить список
+                    </button>
                 </div>
 
                 <!-- Загрузка -->
                 <div class="upload-area" id="uploadArea">
                     <div class="upload-box" id="uploadBox">
                         <i class="fas fa-cloud-upload-alt"></i>
-                        <p>Перетащите WAV файлы сюда или кликните для выбора</p>
-                        <input type="file" id="fileInput" multiple accept="audio/wav,audio/mp3,audio/ogg" style="display: none;">
+                        <p>Выберите папку слева и загружайте WAV файлы</p>
+                        <p style="font-size:12px; color:#aaa;">Файлы будут загружены прямо в ваш репозиторий</p>
+                        <input type="file" id="fileInput" multiple accept="audio/*" style="display: none;">
+                    </div>
+                    <div class="progress-bar" id="progressBar" style="display:none;">
+                        <div class="progress-fill" id="progressFill"></div>
                     </div>
                 </div>
 
@@ -464,37 +426,37 @@
             </div>
         </div>
 
-        <!-- Инструкция по использованию -->
-        <div class="instructions">
-            <h3><i class="fas fa-code"></i> Как использовать в DAW</h3>
-            <p>Скопируйте ссылку на сэмпл и вставьте в код DAW:</p>
-            <div class="code-block" id="codeExample">
-                &lt;div class="sample-item" draggable="true" data-type="sample" data-name="Piano C4" data-url="https://your-domain.com/samples/piano/piano-c4.wav"&gt;
-                &nbsp;&nbsp;&lt;i class="fas fa-music"&gt;&lt;/i&gt; Piano C4
-                &lt;/div&gt;
-            </div>
-            <ol>
-                <li>Создайте папку для категории (например, "piano", "synth", "bass")</li>
-                <li>Загрузите WAV файлы в нужную папку</li>
-                <li>Нажмите "Копировать ссылку" рядом с сэмплом</li>
-                <li>Вставьте ссылку в атрибут data-url в HTML вашей DAW</li>
+        <!-- Инструкция -->
+        <div style="margin-top:30px; background:#18181e; border:1px solid #333; border-radius:12px; padding:20px;">
+            <h3 style="color:#9cf; margin-bottom:15px;">📖 Как настроить GitHub</h3>
+            <ol style="color:#ccc; margin-left:20px;">
+                <li>Создайте репозиторий на GitHub (например, "samples")</li>
+                <li>Создайте Personal Access Token:
+                    <br>GitHub Settings → Developer settings → Personal access tokens → Tokens (classic)
+                    <br>Выберите права: <code>repo</code> (полный доступ к репозиториям)
+                </li>
+                <li>Вставьте токен, владельца, название репозитория и ветку</li>
+                <li>Нажмите "Подключиться к GitHub"</li>
+                <li>Создавайте папки и загружайте файлы - они появятся в вашем репозитории!</li>
             </ol>
             <p style="color:#ffaa33; margin-top:15px;">
-                <i class="fas fa-lightbulb"></i> Совет: Разместите этот сайт на любом хостинге (GitHub Pages, Netlify, Vercel) и все сэмплы будут доступны по прямым ссылкам.
+                <i class="fas fa-exclamation-triangle"></i>
+                Файлы будут доступны по ссылкам вида:<br>
+                <code>https://raw.githubusercontent.com/username/repo/branch/folder/file.wav</code>
             </p>
         </div>
     </div>
 
-    <!-- Модальное окно для новой папки -->
+    <!-- Модальное окно для папки -->
     <div class="modal" id="folderModal">
         <div class="modal-content">
-            <div class="modal-title"><i class="fas fa-folder-plus"></i> Новая папка</div>
+            <h3 style="margin-bottom:20px;">📁 Новая папка</h3>
             <div class="form-group">
                 <label>Название папки</label>
-                <input type="text" class="form-control" id="folderName" placeholder="например: piano, synth, bass...">
+                <input type="text" class="form-control" id="folderName" placeholder="например: piano">
             </div>
-            <div class="modal-actions">
-                <button class="btn btn-primary" id="createFolderBtn" style="flex:2;">Создать</button>
+            <div style="display:flex; gap:10px; margin-top:20px;">
+                <button class="btn btn-primary" id="createFolderBtn" style="flex:2;">Создать на GitHub</button>
                 <button class="btn" id="cancelFolderBtn" style="flex:1;">Отмена</button>
             </div>
         </div>
@@ -506,12 +468,17 @@
     <script>
     (function() {
         // ------------------------------ СОСТОЯНИЕ ------------------------------
+        let githubToken = '';
+        let repoOwner = '';
+        let repoName = '';
+        let repoBranch = 'main';
+        let currentFolder = '';
         let folders = [];
-        let samples = [];
-        let currentFolder = null;
-        let baseUrl = localStorage.getItem('baseUrl') || 'https://your-domain.com/samples/';
+        let files = [];
+        let isConnected = false;
 
         // DOM элементы
+        const githubStatus = document.getElementById('githubStatus');
         const folderList = document.getElementById('folderList');
         const samplesGrid = document.getElementById('samplesGrid');
         const currentFolderName = document.getElementById('currentFolderName');
@@ -519,59 +486,124 @@
         const fileInput = document.getElementById('fileInput');
         const folderModal = document.getElementById('folderModal');
         const folderNameInput = document.getElementById('folderName');
-        const baseUrlInput = document.getElementById('baseUrl');
+        const cdnUrl = document.getElementById('cdnUrl');
         const toast = document.getElementById('toast');
-        const codeExample = document.getElementById('codeExample');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
 
-        // Загружаем сохранённые данные
-        function loadData() {
-            const saved = localStorage.getItem('samplerData');
-            if (saved) {
-                try {
-                    const data = JSON.parse(saved);
-                    folders = data.folders || [];
-                    samples = data.samples || [];
-                } catch (e) {
-                    console.error('Ошибка загрузки данных:', e);
-                }
+        // Загружаем сохранённые настройки
+        function loadSettings() {
+            githubToken = localStorage.getItem('githubToken') || '';
+            repoOwner = localStorage.getItem('repoOwner') || '';
+            repoName = localStorage.getItem('repoName') || '';
+            repoBranch = localStorage.getItem('repoBranch') || 'main';
+
+            document.getElementById('githubToken').value = githubToken;
+            document.getElementById('repoOwner').value = repoOwner;
+            document.getElementById('repoName').value = repoName;
+            document.getElementById('repoBranch').value = repoBranch;
+
+            updateCdnUrl();
+
+            if (githubToken && repoOwner && repoName) {
+                testConnection();
             }
-            renderFolders();
-            renderSamples();
         }
 
-        // Сохраняем данные
-        function saveData() {
-            localStorage.setItem('samplerData', JSON.stringify({
-                folders: folders,
-                samples: samples
-            }));
+        function updateCdnUrl() {
+            cdnUrl.value = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/${repoBranch}/`;
         }
 
-        // ------------------------------ РАБОТА С ПАПКАМИ ------------------------------
+        // ------------------------------ РАБОТА С GITHUB ------------------------------
+        async function githubRequest(endpoint, options = {}) {
+            const url = `https://api.github.com${endpoint}`;
+            const headers = {
+                'Authorization': `token ${githubToken}`,
+                'Accept': 'application/vnd.github.v3+json',
+                ...options.headers
+            };
+
+            const response = await fetch(url, {
+                ...options,
+                headers
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'GitHub API error');
+            }
+
+            return response.json();
+        }
+
+        async function testConnection() {
+            try {
+                await githubRequest(`/repos/${repoOwner}/${repoName}`);
+                isConnected = true;
+                githubStatus.innerHTML = '✅ Подключено к GitHub';
+                githubStatus.className = 'status-badge connected';
+                loadFolders();
+                loadFiles();
+            } catch (e) {
+                isConnected = false;
+                githubStatus.innerHTML = '❌ Ошибка подключения';
+                githubStatus.className = 'status-badge';
+                console.error('GitHub connection error:', e);
+            }
+        }
+
+        document.getElementById('connectGitHub').addEventListener('click', () => {
+            githubToken = document.getElementById('githubToken').value;
+            repoOwner = document.getElementById('repoOwner').value;
+            repoName = document.getElementById('repoName').value;
+            repoBranch = document.getElementById('repoBranch').value;
+
+            localStorage.setItem('githubToken', githubToken);
+            localStorage.setItem('repoOwner', repoOwner);
+            localStorage.setItem('repoName', repoName);
+            localStorage.setItem('repoBranch', repoBranch);
+
+            updateCdnUrl();
+            testConnection();
+        });
+
+        // ------------------------------ ЗАГРУЗКА ПАПОК ------------------------------
+        async function loadFolders() {
+            if (!isConnected) return;
+
+            try {
+                const contents = await githubRequest(`/repos/${repoOwner}/${repoName}/contents/`);
+                folders = contents
+                    .filter(item => item.type === 'dir')
+                    .map(item => item.name);
+                renderFolders();
+            } catch (e) {
+                console.error('Error loading folders:', e);
+            }
+        }
+
         function renderFolders() {
             folderList.innerHTML = '';
 
             // Папка "Все сэмплы"
             const allFolder = document.createElement('div');
-            allFolder.className = `folder-item ${currentFolder === null ? 'active' : ''}`;
+            allFolder.className = `folder-item ${currentFolder === '' ? 'active' : ''}`;
             allFolder.innerHTML = `
                 <div class="folder-name">
                     <i class="fas fa-database"></i>
                     <span>Все сэмплы</span>
                 </div>
-                <span class="folder-count">${samples.length}</span>
             `;
             allFolder.addEventListener('click', () => {
-                currentFolder = null;
+                currentFolder = '';
                 renderFolders();
-                renderSamples();
+                loadFiles();
                 currentFolderName.textContent = 'Все сэмплы';
             });
             folderList.appendChild(allFolder);
 
-            // Папки пользователя
+            // Папки из репозитория
             folders.forEach(folder => {
-                const folderCount = samples.filter(s => s.folder === folder).length;
                 const div = document.createElement('div');
                 div.className = `folder-item ${currentFolder === folder ? 'active' : ''}`;
                 div.innerHTML = `
@@ -579,254 +611,222 @@
                         <i class="fas fa-folder"></i>
                         <span>${folder}</span>
                     </div>
-                    <span class="folder-count">${folderCount}</span>
                 `;
                 div.addEventListener('click', () => {
                     currentFolder = folder;
                     renderFolders();
-                    renderSamples();
+                    loadFiles();
                     currentFolderName.textContent = folder;
                 });
                 folderList.appendChild(div);
             });
         }
 
-        // ------------------------------ РАБОТА С СЭМПЛАМИ ------------------------------
-        function renderSamples() {
-            const filtered = currentFolder ? samples.filter(s => s.folder === currentFolder) : samples;
+        // ------------------------------ ЗАГРУЗКА ФАЙЛОВ ------------------------------
+        async function loadFiles() {
+            if (!isConnected) return;
 
-            if (filtered.length === 0) {
+            try {
+                let path = '';
+                if (currentFolder) {
+                    path = `/${currentFolder}`;
+                }
+
+                const contents = await githubRequest(`/repos/${repoOwner}/${repoName}/contents${path}`);
+                files = contents.filter(item => item.type === 'file' && item.name.match(/\.(wav|mp3|ogg|aif|flac)$/i));
+                renderFiles();
+            } catch (e) {
+                console.error('Error loading files:', e);
+            }
+        }
+
+        function renderFiles() {
+            if (files.length === 0) {
                 samplesGrid.innerHTML = `
                     <div style="grid-column:1/-1; text-align:center; padding:40px; color:#666;">
-                        <i class="fas fa-music" style="font-size:40px; margin-bottom:10px;"></i>
+                        <i class="fas fa-music" style="font-size:40px;"></i>
                         <p>Нет сэмплов в этой папке</p>
-                        <p style="font-size:12px;">Перетащите WAV файлы для загрузки</p>
                     </div>
                 `;
                 return;
             }
 
             samplesGrid.innerHTML = '';
-            filtered.forEach(sample => {
+            files.forEach(file => {
                 const card = document.createElement('div');
                 card.className = 'sample-card';
 
-                // Форматируем размер
-                const size = sample.size ? (sample.size / 1024).toFixed(2) + ' KB' : '---';
-
-                // Создаём URL для прослушивания
-                const audioUrl = sample.dataUrl || sample.url;
+                const rawUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/${repoBranch}/${file.path}`;
 
                 card.innerHTML = `
                     <div class="sample-header">
                         <div class="sample-name">
-                            <i class="fas fa-file-audio"></i> ${sample.name}
+                            <i class="fas fa-file-audio"></i> ${file.name}
                         </div>
-                        <div class="sample-size">${size}</div>
                     </div>
-                    <div class="sample-preview">
-                        <audio controls src="${audioUrl}"></audio>
-                    </div>
-                    <div class="sample-url" id="url-${sample.id}">${sample.url}</div>
+                    <div class="sample-url">${rawUrl}</div>
                     <div class="sample-actions">
-                        <button class="copy-btn" data-id="${sample.id}">
+                        <button class="copy-btn" data-url="${rawUrl}">
                             <i class="fas fa-copy"></i> Копировать ссылку
-                        </button>
-                        <button class="delete-btn" data-id="${sample.id}">
-                            <i class="fas fa-trash"></i>
                         </button>
                     </div>
                 `;
                 samplesGrid.appendChild(card);
             });
 
-            // Добавляем обработчики
             document.querySelectorAll('.copy-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    const id = e.currentTarget.dataset.id;
-                    const sample = samples.find(s => s.id === id);
-                    if (sample) {
-                        navigator.clipboard.writeText(sample.url).then(() => {
-                            toast.style.display = 'block';
-                            setTimeout(() => {
-                                toast.style.display = 'none';
-                            }, 2000);
-                        });
-                    }
-                });
-            });
-
-            document.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    if (!confirm('Удалить этот сэмпл?')) return;
-                    const id = e.currentTarget.dataset.id;
-                    samples = samples.filter(s => s.id !== id);
-                    saveData();
-                    renderSamples();
-                    renderFolders();
+                    const url = e.currentTarget.dataset.url;
+                    navigator.clipboard.writeText(url).then(() => {
+                        toast.style.display = 'block';
+                        setTimeout(() => toast.style.display = 'none', 2000);
+                    });
                 });
             });
         }
 
-        // ------------------------------ ЗАГРУЗКА ФАЙЛОВ ------------------------------
-        function handleFiles(files) {
-            if (!currentFolder) {
-                alert('Сначала выберите или создайте папку');
+        // ------------------------------ СОЗДАНИЕ ПАПКИ ------------------------------
+        document.getElementById('newFolderBtn').addEventListener('click', () => {
+            if (!isConnected) {
+                alert('Сначала подключитесь к GitHub');
                 return;
             }
-
-            Array.from(files).forEach(file => {
-                if (!file.type.includes('audio')) {
-                    alert(`Файл ${file.name} не является аудио`);
-                    return;
-                }
-
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const id = 'sample_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-
-                    // Создаём URL для прослушивания
-                    const dataUrl = e.target.result;
-
-                    // Формируем публичный URL (для вставки в DAW)
-                    const publicUrl = baseUrl + (currentFolder ? currentFolder + '/' : '') + file.name;
-
-                    samples.push({
-                        id: id,
-                        name: file.name,
-                        folder: currentFolder,
-                        size: file.size,
-                        dataUrl: dataUrl,
-                        url: publicUrl,
-                        originalFile: file
-                    });
-
-                    saveData();
-                    renderSamples();
-                    renderFolders();
-                };
-                reader.readAsDataURL(file);
-            });
-        }
-
-        // Drag & drop
-        uploadBox.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadBox.style.borderColor = '#5b5bf5';
-            uploadBox.style.background = '#2f2f3a';
-        });
-
-        uploadBox.addEventListener('dragleave', () => {
-            uploadBox.style.borderColor = '#3a3a48';
-            uploadBox.style.background = '#25252d';
-        });
-
-        uploadBox.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadBox.style.borderColor = '#3a3a48';
-            uploadBox.style.background = '#25252d';
-
-            const files = e.dataTransfer.files;
-            handleFiles(files);
-        });
-
-        uploadBox.addEventListener('click', () => {
-            fileInput.click();
-        });
-
-        fileInput.addEventListener('change', (e) => {
-            handleFiles(e.target.files);
-            fileInput.value = '';
-        });
-
-        // ------------------------------ НОВАЯ ПАПКА ------------------------------
-        document.getElementById('newFolderBtn').addEventListener('click', () => {
             folderModal.classList.add('active');
-            folderNameInput.value = '';
         });
 
         document.getElementById('cancelFolderBtn').addEventListener('click', () => {
             folderModal.classList.remove('active');
         });
 
-        document.getElementById('createFolderBtn').addEventListener('click', () => {
-            const name = folderNameInput.value.trim();
-            if (!name) {
+        document.getElementById('createFolderBtn').addEventListener('click', async () => {
+            const folderName = folderNameInput.value.trim();
+            if (!folderName) {
                 alert('Введите название папки');
                 return;
             }
-            if (folders.includes(name)) {
-                alert('Папка с таким названием уже существует');
+
+            try {
+                // Создаём .gitkeep файл в папке, чтобы папка появилась в репозитории
+                const content = btoa(''); // пустой файл
+
+                await githubRequest(`/repos/${repoOwner}/${repoName}/contents/${folderName}/.gitkeep`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: `Create folder ${folderName}`,
+                        content: content,
+                        branch: repoBranch
+                    })
+                });
+
+                folderModal.classList.remove('active');
+                await loadFolders();
+                toast.style.display = 'block';
+                toast.textContent = 'Папка создана!';
+                setTimeout(() => {
+                    toast.style.display = 'none';
+                    toast.textContent = 'Ссылка скопирована!';
+                }, 2000);
+            } catch (e) {
+                alert('Ошибка при создании папки: ' + e.message);
+            }
+        });
+
+        // ------------------------------ ЗАГРУЗКА ФАЙЛОВ ------------------------------
+        uploadBox.addEventListener('click', () => {
+            if (!isConnected) {
+                alert('Сначала подключитесь к GitHub');
                 return;
             }
-            folders.push(name);
-            saveData();
-            renderFolders();
-            folderModal.classList.remove('active');
+            if (!currentFolder) {
+                alert('Выберите папку');
+                return;
+            }
+            fileInput.click();
         });
 
-        // Закрытие модального окна по клику вне его
-        folderModal.addEventListener('click', (e) => {
-            if (e.target === folderModal) {
-                folderModal.classList.remove('active');
-            }
+        uploadBox.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadBox.style.borderColor = '#5b5bf5';
         });
 
-        // ------------------------------ НАСТРОЙКИ ------------------------------
-        baseUrlInput.value = baseUrl;
+        uploadBox.addEventListener('dragleave', () => {
+            uploadBox.style.borderColor = '#3a3a48';
+        });
 
-        document.getElementById('saveSettings').addEventListener('click', () => {
-            baseUrl = baseUrlInput.value.trim();
-            if (!baseUrl.endsWith('/')) {
-                baseUrl += '/';
+        uploadBox.addEventListener('drop', async (e) => {
+            e.preventDefault();
+            uploadBox.style.borderColor = '#3a3a48';
+
+            if (!isConnected) {
+                alert('Сначала подключитесь к GitHub');
+                return;
             }
-            localStorage.setItem('baseUrl', baseUrl);
+            if (!currentFolder) {
+                alert('Выберите папку');
+                return;
+            }
 
-            // Обновляем URL у всех сэмплов
-            samples = samples.map(sample => {
-                return {
-                    ...sample,
-                    url: baseUrl + (sample.folder ? sample.folder + '/' : '') + sample.name
-                };
-            });
-            saveData();
-            renderSamples();
+            const files = Array.from(e.dataTransfer.files);
+            await uploadFiles(files);
+        });
 
+        fileInput.addEventListener('change', async (e) => {
+            await uploadFiles(Array.from(e.target.files));
+            fileInput.value = '';
+        });
+
+        async function uploadFiles(files) {
+            progressBar.style.display = 'block';
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                progressFill.style.width = `${(i / files.length) * 100}%`;
+
+                try {
+                    // Читаем файл как base64
+                    const reader = new FileReader();
+                    const content = await new Promise((resolve) => {
+                        reader.onload = () => resolve(reader.result.split(',')[1]);
+                        reader.readAsDataURL(file);
+                    });
+
+                    await githubRequest(`/repos/${repoOwner}/${repoName}/contents/${currentFolder}/${file.name}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            message: `Upload ${file.name}`,
+                            content: content,
+                            branch: repoBranch
+                        })
+                    });
+
+                } catch (e) {
+                    alert(`Ошибка при загрузке ${file.name}: ${e.message}`);
+                }
+            }
+
+            progressFill.style.width = '100%';
+            setTimeout(() => {
+                progressBar.style.display = 'none';
+                progressFill.style.width = '0%';
+            }, 1000);
+
+            await loadFiles();
             toast.style.display = 'block';
-            toast.textContent = 'Настройки сохранены';
+            toast.textContent = 'Файлы загружены!';
             setTimeout(() => {
                 toast.style.display = 'none';
                 toast.textContent = 'Ссылка скопирована!';
             }, 2000);
-        });
-
-        // Обновление примера кода
-        function updateCodeExample() {
-            codeExample.innerHTML = `
-&lt;div class="sample-item" draggable="true" data-type="sample" data-name="Piano C4" data-url="${baseUrl}piano/piano-c4.wav"&gt;
-  &lt;i class="fas fa-music"&gt;&lt;/i&gt; Piano C4
-&lt;/div&gt;
-            `;
         }
-        updateCodeExample();
 
         document.getElementById('refreshSamples').addEventListener('click', () => {
-            renderSamples();
+            loadFiles();
         });
 
-        // ------------------------------ ЭКСПОРТ ------------------------------
-        window.exportSamplesList = function() {
-            const data = samples.map(s => ({
-                name: s.name,
-                folder: s.folder,
-                url: s.url
-            }));
-            console.log('Список сэмплов для DAW:', data);
-            return data;
-        };
-
-        // Загружаем данные при старте
-        loadData();
+        // ------------------------------ ЗАПУСК ------------------------------
+        loadSettings();
     })();
     </script>
 </body>
